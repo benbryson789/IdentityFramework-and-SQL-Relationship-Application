@@ -1,0 +1,52 @@
+﻿@model IEnumerable<lab24version3.Models.MoviesModel>
+
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<h1>Movies</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Runtime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Runtime)
+                </td>
+                <td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (item.IsAvailable)
+                        {
+                            <a asp-action="Checkout" asp-route-id="@item.Id">Checkout</a>
+                        }
+                        else
+                        {
+                            <label>Checked out. Due @item.DueDate</label>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
